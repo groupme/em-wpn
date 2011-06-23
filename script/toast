@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+#
+# Send a single toast notification
+#
+#   $ script/toast <URI> "<TEXT1>" ["<TEXT2>"]
+#
+
+require "rubygems"
+require "bundler/setup"
+require "em-wpn"
+
+uri, text1, text2 = ARGV
+
+if uri.nil? || text1.nil?
+  puts "Usage: script/toast <URI> \"<TEXT1>\" [\"<TEXT2>\"]"
+  exit 1
+end
+
+EM.run do
+  notification = EM::WPN::Toast.new(uri, :text1 => text1, :text2 => text2)
+  EM::WPN.push(notification)
+
+  # Hopefully give ourselves enough time to receive a response on failure.
+  # Wish there was a better way to do this. Or at least a more timely way.
+  EM.add_timer(1) { EM.stop_event_loop }
+end
