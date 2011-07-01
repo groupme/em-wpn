@@ -4,7 +4,9 @@ module EventMachine
       attr_reader :uri, :properties, :uuid
 
       def initialize(uri, properties)
-        @uri, @properties, @uuid = uri, properties, $uuid.generate
+        @uri = uri
+        @properties = properties.symbolize_keys
+        @uuid = $uuid.generate
       end
 
       def body

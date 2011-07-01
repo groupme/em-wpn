@@ -17,6 +17,21 @@ describe EventMachine::WPN::Toast do
 XML
     end
 
+    it "accepts string keys" do
+      notification = EM::WPN::Toast.new("http://example.com",
+        {
+          "text1" => "Hello",
+          "text2" => "World"
+        }
+      )
+      notification.body.should == <<-XML
+<?xml version="1.0" encoding="utf-8"?>
+<wp:Notification xmlns:wp="WPNotification">
+  <wp:Toast><wp:Text1>Hello</wp:Text1><wp:Text2>World</wp:Text2></wp:Toast>
+</wp:Notification>
+XML
+    end
+
     it "handles params" do
       notification = EM::WPN::Toast.new("http://example.com",
         {
