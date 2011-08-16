@@ -24,13 +24,8 @@ module EventMachine
     end
 
     Client.class_eval do
-      unless instance_methods.include?(:deliver_with_testing)
-        def deliver_with_testing(notification)
-          EM::WPN.deliveries << notification
-          deliver_without_testing(notification)
-        end
-        alias :deliver_without_testing :deliver
-        alias :deliver :deliver_with_testing
+      def deliver(notification)
+        EM::WPN.deliveries << notification
       end
     end
   end
