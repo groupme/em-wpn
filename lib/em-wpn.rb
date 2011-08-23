@@ -4,6 +4,8 @@ require "logger"
 require "uuid"
 require "em-wpn/core_ext"
 require "em-wpn/client"
+require "em-wpn/notification"
+require "em-wpn/tile"
 require "em-wpn/toast"
 
 $uuid = UUID.new

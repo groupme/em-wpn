@@ -1,24 +1,8 @@
 module EventMachine
   module WPN
-    class Toast
-      attr_reader :uri, :properties, :uuid
-
-      def initialize(uri, properties)
-        @uri = uri
-        @properties = properties.symbolize_keys
-        @uuid = $uuid.generate
-      end
-
-      def body
-        @body ||= generate_body
-      end
-
-      private
-
-      # TODO Ensure payload is < 1k
+    class Toast < Notification
       def generate_body
         payload = ""
-
         payload << "<wp:Text1>#{properties[:text1]}</wp:Text1>" if properties[:text1]
         payload << "<wp:Text2>#{properties[:text2]}</wp:Text2>" if properties[:text2]
 

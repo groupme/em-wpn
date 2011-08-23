@@ -4,24 +4,30 @@ Implements Windows Phone 7 push notifications as described on [MSDN](http://msdn
 
 ## Usage
 
-Only "Toast" notifications are implemented, but others will follow.
-
-    require "em-wpn"
+### Toast
 
     EM.run do
-      notification = EM::WPN::Toast.new("http://live.net...", :text1 => "Hi")
-      EM::APN.push(notification)
+      toast = EM::WPN::Toast.new("http://live.net...",
+        :text1 => "Hello",
+        :text2 => "World"
+      )
+      EM::WPN.push(toast)
+    end
+
+### Tile
+
+    EM.run do
+      tile = EM::WPN::Tile.new("http://live.net...",
+        :background_image => "/image.png",
+        :count            => 5,
+        :title            => "Hello World"
+      )
+      EM::WPN.push(tile)
     end
     
-## Script
-
-You can also use the provided `toast` script for fast testing:
-
-    $ script/toast http://live.net... "hello" "world"
     
 ## TODO
 
-* Tile notifications
 * Raw notifications
 * SSL request signing (see [this](http://csainty.blogspot.com/2011/01/wp7-authenticated-push-notifications.html))
 
