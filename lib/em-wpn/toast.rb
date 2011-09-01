@@ -1,6 +1,16 @@
 module EventMachine
   module WPN
     class Toast < Notification
+      def headers
+        {
+          "X-MessageID"           => uuid,
+          "ContentType"           => "text/xml",
+          "ContentLength"         => body.size,
+          "X-WindowsPhone-Target" => "toast",
+          "X-NotificationClass"   => "2" # immediate
+        }
+      end
+
       def generate_body
         payload = ""
         payload << "<wp:Text1>#{properties[:text1]}</wp:Text1>" if properties[:text1]

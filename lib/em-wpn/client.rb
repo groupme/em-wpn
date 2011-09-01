@@ -5,13 +5,7 @@ module EventMachine
         @start = Time.now.to_f
         @http = EventMachine::HttpRequest.new(notification.uri).post(
           :body => notification.body,
-          :head => {
-            "X-MessageID"           => notification.uuid,
-            "ContentType"           => "text/xml",
-            "ContentLength"         => notification.body.size,
-            "X-WindowsPhone-Target" => "toast",
-            "X-NotificationClass"   => "2" # immediate
-          }
+          :head => notification.headers
         )
 
         @http.callback  { log_success(notification.uuid) }

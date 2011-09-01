@@ -65,4 +65,23 @@ XML
 XML
     end
   end
+
+  describe "headers" do
+    it "generates proper headers" do
+      notification = EM::WPN::Toast.new("http://example.com",
+        {
+          :text1 => "Hello",
+          :text2 => "World"
+        }
+      )
+      notification.headers.should == {
+        "X-MessageID"           => notification.uuid,
+        "ContentType"           => "text/xml",
+        "ContentLength"         => notification.body.size,
+        "X-WindowsPhone-Target" => "toast",
+        "X-NotificationClass"   => "2"
+      }
+    end
+  end
+
 end

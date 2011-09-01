@@ -41,6 +41,23 @@ XML
 <wp:Notification xmlns:wp="WPNotification"><wp:Tile><wp:Count>5</wp:Count><wp:Title>Hello</wp:Title></wp:Tile></wp:Notification>
 XML
     end
+  end
 
+  describe "headers" do
+    it "generates proper headers" do
+      notification = EM::WPN::Tile.new("http://example.com",
+        {
+          :count => 5,
+          :title => "Hello"
+        }
+      )
+      notification.headers.should == {
+        "X-MessageID"           => notification.uuid,
+        "ContentType"           => "text/xml",
+        "ContentLength"         => notification.body.size,
+        "X-WindowsPhone-Target" => "token",
+        "X-NotificationClass"   => "1"
+      }
+    end
   end
 end

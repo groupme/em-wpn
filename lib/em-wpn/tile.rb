@@ -1,6 +1,16 @@
 module EventMachine
   module WPN
     class Tile < Notification
+      def headers
+        {
+          "X-MessageID"           => uuid,
+          "ContentType"           => "text/xml",
+          "ContentLength"         => body.size,
+          "X-WindowsPhone-Target" => "token",
+          "X-NotificationClass"   => "1"
+        }
+      end
+
       # <?xml version="1.0" encoding="utf-8"?>
       # <wp:Notification xmlns:wp="WPNotification">
       # <wp:Tile>
