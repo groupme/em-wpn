@@ -10,12 +10,12 @@
 # list:
 #
 #     expect {
-#       EM::WPN.push(token, aps, custom)
+#       EM::WPN.push(notification)
 #     }.to change { EM::WPN.deliveries.size }.by(1)
 #
 #     notification = EM::WPN.deliveries.first
 #     notification.should be_an_instance_of(EM::WPN::Notification)
-#     notification.payload.should == ...
+#     notification.body.should == ...
 #
 module EventMachine
   module WPN
@@ -24,8 +24,8 @@ module EventMachine
     end
 
     Client.class_eval do
-      def deliver(notification)
-        EM::WPN.deliveries << notification
+      def deliver(block = nil)
+        EM::WPN.deliveries << @notification
       end
     end
   end

@@ -5,6 +5,7 @@ require "uuid"
 require "em-wpn/core_ext"
 require "em-wpn/client"
 require "em-wpn/notification"
+require "em-wpn/response"
 require "em-wpn/tile"
 require "em-wpn/toast"
 
@@ -12,8 +13,8 @@ $uuid = UUID.new
 
 module EventMachine
   module WPN
-    def self.push(notification)
-      Client.new.deliver(notification)
+    def self.push(notification, &block)
+      Client.new(notification).deliver(block)
     end
 
     def self.logger
