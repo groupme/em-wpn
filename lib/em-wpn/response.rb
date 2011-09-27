@@ -1,3 +1,5 @@
+# Based on:
+# http://msdn.microsoft.com/en-us/library/ff941100(v=vs.92).aspx
 module EventMachine
   module WPN
     class Response
@@ -23,7 +25,7 @@ module EventMachine
       end
 
       def success?
-        @error.nil?
+        @status == 200
       end
 
       private
@@ -36,7 +38,7 @@ module EventMachine
         @device_connection_status = headers["X_DEVICECONNECTIONSTATUS"]
         @notification_status      = headers["X_NOTIFICATIONSTATUS"]
         @subscription_status      = headers["X_SUBSCRIPTIONSTATUS"]
-        @error                    = nil # for now
+        @error                    = success? ? nil : @notification_status
       end
 
       def from_hash(hash)

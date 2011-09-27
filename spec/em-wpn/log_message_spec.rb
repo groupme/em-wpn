@@ -21,12 +21,12 @@ describe EM::WPN::LogMessage do
   it "logs to error on success (with error in payload)" do
     response = EM::WPN::Response.new(
       :id => "activity_id",
-      :status => 200,
-      :error => "InvalidRegistration"
+      :status => 404,
+      :error => "Dropped"
     )
 
     EM::WPN.logger.should_receive(:error).with(
-      "CODE=200 GUID=#{@notification.uuid} TOKEN=#{@notification.uri} TIME=#{response.duration} ERROR=#{response.error}"
+      "CODE=404 GUID=#{@notification.uuid} TOKEN=#{@notification.uri} TIME=#{response.duration} ERROR=#{response.error}"
     )
 
     EM::WPN::LogMessage.new(@notification, response).log
