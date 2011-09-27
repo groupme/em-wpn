@@ -40,6 +40,7 @@ describe EventMachine::WPN do
       EM.run_block do
         EM::WPN.push(notification) do |response|
           response.status.should == 404
+          response.id.should == "abc"
           response.activity_id.should == "abc"
           response.device_connection_status.should == "Disconnected"
           response.notification_status.should == "Dropped"

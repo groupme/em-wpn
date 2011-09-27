@@ -1,32 +1,55 @@
 module EventMachine
   module WPN
     class Response
-      attr_reader :status,
-                  :duration,
-                  :activity_id,
-                  :device_connection_status,
-                  :notification_status,
-                  :subscription_status
+      attr_reader :id
+      attr_reader :status
+      attr_reader :duration
+      attr_reader :error
 
-      def initialize(headers, start)
-        @status = headers.status
-        @duration = ((Time.now.to_f - start) * 1000.0).round
+      # Service-specific
+      attr_reader :activity_id
+      attr_reader :device_connection_status
+      attr_reader :notification_status
+      attr_reader :subscription_status
 
-        @activity_id              = headers["ACTIVITYID"]
+      def initialize(http = {}, start = nil)
+        @duration = compute_duration(start)
+
+        if http.kind_of?(Hash)
+          from_hash(http)
+        else
+          from_http(http)
+        end
+      end
+
+      def success?
+        @error.nil?
+      end
+
+      private
+
+      def from_http(http)
+        headers = http..response_header
+        @id                       = headers["ACTIVITYID"]
+        @activity_id              = @id
+        @status                   = headers.status
         @device_connection_status = headers["X_DEVICECONNECTIONSTATUS"]
         @notification_status      = headers["X_NOTIFICATIONSTATUS"]
         @subscription_status      = headers["X_SUBSCRIPTIONSTATUS"]
+        @error                    = nil # for now
       end
 
-      def to_s
-        [
-          "status:#{status}",
-          "subscription:#{subscription_status}",
-          "device:#{device_connection_status}",
-          "notification:#{notification_status}",
-          "activity:#{activity_id}",
-          "duration:#{duration}ms"
-        ].join(" ")
+      def from_hash(hash)
+        @id           = hash[:id]
+        @activity_id  = @id
+        @status       = hash[:status]
+        @retry_after  = hash[:retry_after]
+        @client_auth  = hash[:client_auth]
+        @error        = hash[:error]
+      end
+
+      def compute_duration(start)
+        start && ((Time.now.to_f - start) * 1000.0).round
       end
     end
   end

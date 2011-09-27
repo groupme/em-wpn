@@ -5,7 +5,6 @@ require "uuid"
 require "em-wpn/core_ext"
 require "em-wpn/client"
 require "em-wpn/notification"
-require "em-wpn/response"
 require "em-wpn/tile"
 require "em-wpn/toast"
 

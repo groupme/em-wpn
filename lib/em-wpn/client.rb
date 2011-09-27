@@ -1,3 +1,6 @@
+require "em-wpn/response"
+require "em-wpn/log_message"
+
 module EventMachine
   module WPN
     class Client
@@ -13,13 +16,13 @@ module EventMachine
         )
 
         http.callback do
-          response = EM::WPN::Response.new(http.response_header, start)
-          EM::WPN.logger.info("uuid:#{@notification.uuid} #{response}")
+          response = Response.new(http, start)
+          LogMessage.new(@notification, response).log
           block.call(response) if block
         end
 
-        http.errback do
-          EM::WPN.logger.error("uuid:#{@notification.uuid} failed")
+        http.errback do |e|
+          EM::WPN.logger.error("uuid:#{@notification.uuid} #{e.inspect}")
         end
       end
     end
