@@ -31,7 +31,7 @@ module EventMachine
       private
 
       def from_http(http)
-        headers = http..response_header
+        headers = http.response_header
         @id                       = headers["ACTIVITYID"]
         @activity_id              = @id
         @status                   = headers.status
