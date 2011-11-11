@@ -24,8 +24,12 @@ module EventMachine
     end
 
     Client.class_eval do
-      def deliver(block = nil)
+      def deliver
+        http = { :status => 200 }
+        response = EM::WPN::Response.new(http, Time.now.to_f)
+
         EM::WPN.deliveries << @notification
+        yield(response) if block_given?
       end
     end
   end

@@ -13,7 +13,7 @@ $uuid = UUID.new
 module EventMachine
   module WPN
     def self.push(notification, &block)
-      Client.new(notification).deliver(block)
+      Client.new(notification).deliver(&block)
     end
 
     def self.logger
