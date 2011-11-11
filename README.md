@@ -30,6 +30,7 @@ Implements Windows Phone 7 push notifications as described on [MSDN](http://msdn
 
 * Raw notifications
 * SSL request signing (see [this](http://csainty.blogspot.com/2011/01/wp7-authenticated-push-notifications.html))
+* Yield deferrable for handling connection-level problems
 
 ## Credits
 
