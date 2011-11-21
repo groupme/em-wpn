@@ -1,4 +1,4 @@
-# Test helper for EM::WPN
+# RSpec helper for EM::WPN
 #
 # To use this, start by simply requiring this file after EM::WPN has already
 # been loaded
@@ -6,30 +6,26 @@
 #     require "em-wpn"
 #     require "em-wpn/test_helper"
 #
-# This will nullify actual deliveries and instead, push them onto an accessible
-# list:
+# This lets you easily stub and mock deliveries (using WebMock):
 #
-#     expect {
-#       EM::WPN.push(notification)
-#     }.to change { EM::WPN.deliveries.size }.by(1)
+#     notification = EM::WPN::Toast.new(URL, :text1 => "Hello world")
 #
-#     notification = EM::WPN.deliveries.first
-#     notification.should be_an_instance_of(EM::WPN::Notification)
-#     notification.body.should == ...
+#     request_stub = EM::WPN.stub(notification).to_return(:status => 200)
 #
+#     # Do work...
+#
+#     request_stub.should have_been_requested
+#
+require 'webmock/rspec'
+
 module EventMachine
   module WPN
-    def self.deliveries
-      @deliveries ||= []
-    end
-
-    Client.class_eval do
-      def deliver
-        http = { :status => 200 }
-        response = EM::WPN::Response.new(http, Time.now.to_f)
-
-        EM::WPN.deliveries << @notification
-        yield(response) if block_given?
+    class << self
+      def stub(notification)
+        WebMock::API.stub_request(:post, notification.uri).with(
+          :body    => notification.body,
+          :headers => notification.headers
+        )
       end
     end
   end

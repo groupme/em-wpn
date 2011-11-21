@@ -2,15 +2,14 @@ module EventMachine
   module WPN
     class LogMessage
       def initialize(notification, response)
-        @notification, @response = notification, response
-      end
-
-      def log
-        EM::WPN.logger.debug(debug)
-
-        if @response.success?
+        @notification = notification
+        @response = response
+        @response.callback do
+          EM::WPN.logger.debug(debug)
           EM::WPN.logger.info(message)
-        else
+        end
+        @response.errback do
+          EM::WPN.logger.debug(debug)
           EM::WPN.logger.error(message)
         end
       end
@@ -24,7 +23,7 @@ module EventMachine
           "TOKEN=#{@notification.uri}",
           "TIME=#{@response.duration}"
         ]
-        parts << "ERROR=#{@response.error}" unless @response.success?
+        parts << "ERROR=#{@response.error}" if @response.error
         parts.join(" ")
       end
 
