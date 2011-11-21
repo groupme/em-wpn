@@ -6,43 +6,29 @@ describe EM::WPN::LogMessage do
   end
 
   it "logs to info on success" do
-    response = EM::WPN::Response.new(
-      :id => "activity_id",
-      :status => 200
-    )
+    response = EM::WPN::Response.new(EM::DefaultDeferrable.new)
+    response.stub(:duration).and_return(100)
+    response.stub(:status).and_return(200)
 
     EM::WPN.logger.should_receive(:info).with(
       "CODE=200 GUID=#{@notification.uuid} TOKEN=#{@notification.uri} TIME=#{response.duration}"
     )
 
-    EM::WPN::LogMessage.new(@notification, response).log
+    EM::WPN::LogMessage.new(@notification, response)
+    response.succeed(response)
   end
 
-  it "logs to error on success (with error in payload)" do
-    response = EM::WPN::Response.new(
-      :id => "activity_id",
-      :status => 404,
-      :error => "Dropped"
-    )
+  it "logs to error on failure" do
+    response = EM::WPN::Response.new(EM::DefaultDeferrable.new)
+    response.stub(:duration).and_return(100)
+    response.stub(:status).and_return(404)
+    response.stub(:error).and_return("Dropped")
 
     EM::WPN.logger.should_receive(:error).with(
       "CODE=404 GUID=#{@notification.uuid} TOKEN=#{@notification.uri} TIME=#{response.duration} ERROR=#{response.error}"
     )
 
-    EM::WPN::LogMessage.new(@notification, response).log
-  end
-
-  it "logs to error on failure" do
-    response = EM::WPN::Response.new(
-      :id => "activity_id",
-      :status => 503,
-      :error => "RetryAfter"
-    )
-
-    EM::WPN.logger.should_receive(:error).with(
-      "CODE=503 GUID=#{@notification.uuid} TOKEN=#{@notification.uri} TIME=#{response.duration} ERROR=#{response.error}"
-    )
-
-    EM::WPN::LogMessage.new(@notification, response).log
+    EM::WPN::LogMessage.new(@notification, response)
+    response.fail(response)
   end
 end
