@@ -3,6 +3,10 @@
 module EventMachine
   module WPN
     class Response
+      include Deferrable
+
+      attr_reader :http
+
       attr_reader :id
       attr_reader :status
       attr_reader :duration
@@ -14,44 +18,44 @@ module EventMachine
       attr_reader :notification_status
       attr_reader :subscription_status
 
-      def initialize(http = {}, start = nil)
-        @duration = compute_duration(start)
+      def initialize(http, start_time = nil)
+        @start_time = start_time
+        @http = http
 
-        if http.kind_of?(Hash)
-          from_hash(http)
-        else
-          from_http(http)
+        @http.callback do |http|
+          set_duration
+          parse_headers(http.response_header)
+          success? ? succeed(self) : fail(self)
         end
-      end
 
-      def success?
-        @status == 200
+        @http.errback do |http|
+          set_duration
+          @error = http.error
+          fail(self)
+        end
       end
 
       private
 
-      def from_http(http)
-        headers = http.response_header
+      def set_duration
+        if @start_time
+          @duration = ((Time.now.to_f - @start_time) * 1000.0).round
+        end
+      end
+
+      def parse_headers(headers)
         @id                       = headers["ACTIVITYID"]
         @activity_id              = @id
         @status                   = headers.status
         @device_connection_status = headers["X_DEVICECONNECTIONSTATUS"]
         @notification_status      = headers["X_NOTIFICATIONSTATUS"]
         @subscription_status      = headers["X_SUBSCRIPTIONSTATUS"]
-        @error                    = success? ? nil : @notification_status
+
+        @error = @notification_status unless success?
       end
 
-      def from_hash(hash)
-        @id           = hash[:id]
-        @activity_id  = @id
-        @status       = hash[:status]
-        @retry_after  = hash[:retry_after]
-        @client_auth  = hash[:client_auth]
-        @error        = hash[:error]
-      end
-
-      def compute_duration(start)
-        start && ((Time.now.to_f - start) * 1000.0).round
+      def success?
+        @status == 200
       end
     end
   end
