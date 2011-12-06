@@ -12,7 +12,10 @@ describe EventMachine::WPN::Toast do
       notification.body.should == <<-XML
 <?xml version="1.0" encoding="utf-8"?>
 <wp:Notification xmlns:wp="WPNotification">
-  <wp:Toast><wp:Text1>Hello</wp:Text1><wp:Text2>World</wp:Text2></wp:Toast>
+  <wp:Toast>
+    <wp:Text1>Hello</wp:Text1>
+    <wp:Text2>World</wp:Text2>
+  </wp:Toast>
 </wp:Notification>
 XML
     end
@@ -27,7 +30,10 @@ XML
       notification.body.should == <<-XML
 <?xml version="1.0" encoding="utf-8"?>
 <wp:Notification xmlns:wp="WPNotification">
-  <wp:Toast><wp:Text1>Hello</wp:Text1><wp:Text2>World</wp:Text2></wp:Toast>
+  <wp:Toast>
+    <wp:Text1>Hello</wp:Text1>
+    <wp:Text2>World</wp:Text2>
+  </wp:Toast>
 </wp:Notification>
 XML
     end
@@ -43,7 +49,11 @@ XML
       notification.body.should == <<-XML
 <?xml version="1.0" encoding="utf-8"?>
 <wp:Notification xmlns:wp="WPNotification">
-  <wp:Toast><wp:Text1>Hello</wp:Text1><wp:Text2>World</wp:Text2><wp:Param>?biz=baz&foo=bar</wp:Param></wp:Toast>
+  <wp:Toast>
+    <wp:Text1>Hello</wp:Text1>
+    <wp:Text2>World</wp:Text2>
+    <wp:Param>?biz=baz&amp;foo=bar</wp:Param>
+  </wp:Toast>
 </wp:Notification>
 XML
     end
@@ -60,7 +70,11 @@ XML
       notification.body.should == <<-XML
 <?xml version="1.0" encoding="utf-8"?>
 <wp:Notification xmlns:wp="WPNotification">
-  <wp:Toast><wp:Text1>Hello</wp:Text1><wp:Text2>World</wp:Text2><wp:Param>/page.xaml?biz=baz&foo=bar</wp:Param></wp:Toast>
+  <wp:Toast>
+    <wp:Text1>Hello</wp:Text1>
+    <wp:Text2>World</wp:Text2>
+    <wp:Param>/page.xaml?biz=baz&amp;foo=bar</wp:Param>
+  </wp:Toast>
 </wp:Notification>
 XML
     end
