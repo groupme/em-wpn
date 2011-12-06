@@ -11,7 +11,12 @@ describe EventMachine::WPN::Tile do
       )
       notification.body.should == <<-XML
 <?xml version="1.0" encoding="utf-8"?>
-<wp:Notification xmlns:wp="WPNotification"><wp:Tile><wp:Count>5</wp:Count><wp:Title>Hello</wp:Title></wp:Tile></wp:Notification>
+<wp:Notification xmlns:wp="WPNotification">
+  <wp:Tile>
+    <wp:Count>5</wp:Count>
+    <wp:Title>Hello</wp:Title>
+  </wp:Tile>
+</wp:Notification>
 XML
     end
 
@@ -25,7 +30,12 @@ XML
       )
       notification.body.should == <<-XML
 <?xml version="1.0" encoding="utf-8"?>
-<wp:Notification xmlns:wp="WPNotification"><wp:Tile><wp:BackgroundImage>/image.png</wp:BackgroundImage><wp:Title>Hello</wp:Title></wp:Tile></wp:Notification>
+<wp:Notification xmlns:wp="WPNotification">
+  <wp:Tile>
+    <wp:BackgroundImage>/image.png</wp:BackgroundImage>
+    <wp:Title>Hello</wp:Title>
+  </wp:Tile>
+</wp:Notification>
 XML
     end
 
@@ -38,7 +48,29 @@ XML
       )
       notification.body.should == <<-XML
 <?xml version="1.0" encoding="utf-8"?>
-<wp:Notification xmlns:wp="WPNotification"><wp:Tile><wp:Count>5</wp:Count><wp:Title>Hello</wp:Title></wp:Tile></wp:Notification>
+<wp:Notification xmlns:wp="WPNotification">
+  <wp:Tile>
+    <wp:Count>5</wp:Count>
+    <wp:Title>Hello</wp:Title>
+  </wp:Tile>
+</wp:Notification>
+XML
+    end
+
+    it "properly escapes XML entities" do
+      notification = EM::WPN::Tile.new("http://www.example.com",
+        {
+          :title => "Mike & Ike > Now & Later"
+        }
+      )
+
+      notification.body.should == <<-XML
+<?xml version="1.0" encoding="utf-8"?>
+<wp:Notification xmlns:wp="WPNotification">
+  <wp:Tile>
+    <wp:Title>Mike &amp; Ike &gt; Now &amp; Later</wp:Title>
+  </wp:Tile>
+</wp:Notification>
 XML
     end
   end

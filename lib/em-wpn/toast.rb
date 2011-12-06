@@ -12,22 +12,25 @@ module EventMachine
       end
 
       def generate_body
-        payload = ""
-        payload << "<wp:Text1>#{properties[:text1]}</wp:Text1>" if properties[:text1]
-        payload << "<wp:Text2>#{properties[:text2]}</wp:Text2>" if properties[:text2]
+        builder = Nokogiri::XML::Builder.new(:encoding => "utf-8")
 
-        if params = properties[:params]
-          params_string = "?#{params.to_query}"
-          params_string = "/#{properties[:xaml]}#{params_string}" if properties[:xaml]
-          payload << "<wp:Param>#{params_string}</wp:Param>"
+        builder.Notification("xmlns:wp" => "WPNotification") do |notification|
+          builder.parent.namespace = builder.parent.namespace_definitions.last
+
+          notification.Toast do |toast|
+            toast.Text1 properties[:text1] if properties[:text1]
+            toast.Text2 properties[:text2] if properties[:text2]
+
+            if params = properties[:params]
+              params_string = "?#{params.to_query}"
+              params_string = "/#{properties[:xaml]}#{params_string}" if properties[:xaml]
+
+              toast.Param params_string
+            end
+          end
         end
 
-        <<-XML
-<?xml version="1.0" encoding="utf-8"?>
-<wp:Notification xmlns:wp="WPNotification">
-  <wp:Toast>#{payload}</wp:Toast>
-</wp:Notification>
-        XML
+        builder.to_xml
       end
     end
   end
