@@ -20,15 +20,22 @@ module EventMachine
       # </wp:Tile>
       # </wp:Notification>
       def generate_body
-        payload = ""
-        payload << "<wp:BackgroundImage>#{properties[:background_image]}</wp:BackgroundImage>" if properties[:background_image]
-        payload << "<wp:Count>#{properties[:count]}</wp:Count>" if properties[:count]
-        payload << "<wp:Title>#{properties[:title]}</wp:Title>" if properties[:title]
+        builder = Nokogiri::XML::Builder.new(:encoding => "utf-8")
 
-        <<-XML
-<?xml version="1.0" encoding="utf-8"?>
-<wp:Notification xmlns:wp="WPNotification"><wp:Tile>#{payload}</wp:Tile></wp:Notification>
-        XML
+        builder.Notification("xmlns:wp" => "WPNotification") do |notification|
+          builder.parent.namespace = builder.parent.namespace_definitions.last
+
+          notification.Tile do |tile|
+            if properties[:background_image]
+              tile.BackgroundImage properties[:background_image]
+            end
+
+            tile.Count properties[:count] if properties[:count]
+            tile.Title properties[:title] if properties[:title]
+          end
+        end
+
+        builder.to_xml
       end
     end
   end

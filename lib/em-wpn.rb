@@ -2,6 +2,8 @@ require "eventmachine"
 require "em-http-request"
 require "logger"
 require "uuid"
+require "nokogiri"
+
 require "em-wpn/core_ext"
 require "em-wpn/log_message"
 require "em-wpn/notification"
