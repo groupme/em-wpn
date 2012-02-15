@@ -21,7 +21,9 @@ module EventMachine
             toast.Text1 properties[:text1] if properties[:text1]
             toast.Text2 properties[:text2] if properties[:text2]
 
-            if params = properties[:params]
+            if properties[:param]
+              toast.Param properties[:param]
+            elsif params = properties[:params]
               params_string = "?#{params.to_query}"
               params_string = "/#{properties[:xaml]}#{params_string}" if properties[:xaml]
 
