@@ -2,6 +2,8 @@ module EventMachine
   module WPN
     class LogMessage
       def initialize(notification, response)
+        EM::WPN.logger.debug(notification.body) if ENV["VERBOSE"]
+
         @notification = notification
         @response = response
         @response.callback do

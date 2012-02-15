@@ -3,6 +3,7 @@ require 'spec_helper'
 describe EM::WPN::LogMessage do
   before do
     @notification = EM::WPN::Notification.new("reg_id", :alert => "hi")
+    @notification.stub(:body).and_return("BODY")
   end
 
   it "logs to info on success" do
