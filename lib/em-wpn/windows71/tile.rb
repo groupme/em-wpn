@@ -45,21 +45,13 @@ module EventMachine
               tile.Title properties[:title] if properties[:title]
               tile.BackgroundImage properties[:background_image] if properties[:background_image]
 
-              tile.BackTitle clear_empty_element(properties[:back_title])
-              tile.BackContent clear_empty_element(properties[:back_content])
-              tile.BackBackgroundImage clear_empty_element(properties[:back_background_image])
+              tile.BackTitle           clear(properties[:back_title])
+              tile.BackContent         clear(properties[:back_content])
+              tile.BackBackgroundImage clear(properties[:back_background_image])
             end
           end
 
-          builder.to_xml(:save_with => Nokogiri::XML::Node::SaveOptions::NO_EMPTY_TAGS | Nokogiri::XML::Node::SaveOptions::FORMAT)
-        end
-
-        def clear_empty_element(content)
-          if content && content.to_s.size > 0
-            content
-          else
-            {"Action" => "Clear"}
-          end
+          builder.to_xml(save_with: NOKOGIRI_SAVE_OPTIONS)
         end
       end
 
