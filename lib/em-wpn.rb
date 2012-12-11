@@ -14,6 +14,7 @@ require "em-wpn/windows71/tile"
 
 require "em-wpn/windows8/toast"
 require "em-wpn/windows8/iconic_tile"
+require "em-wpn/windows8/flip_tile"
 
 $uuid = UUID.new
 
