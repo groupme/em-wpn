@@ -1,7 +1,7 @@
 require "rubygems"
 require "bundler/setup"
-Bundler.require :default, :development
 
+require "em-wpn"
 require "em-wpn/test_helper"
 
 RSpec.configure do |config|

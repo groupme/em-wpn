@@ -8,8 +8,13 @@ require "em-wpn/core_ext"
 require "em-wpn/log_message"
 require "em-wpn/notification"
 require "em-wpn/response"
-require "em-wpn/tile"
-require "em-wpn/toast"
+
+require "em-wpn/windows71/toast"
+require "em-wpn/windows71/tile"
+
+require "em-wpn/windows8/toast"
+require "em-wpn/windows8/iconic_tile"
+require "em-wpn/windows8/flip_tile"
 
 $uuid = UUID.new
 

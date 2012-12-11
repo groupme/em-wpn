@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe EventMachine::WPN::Tile do
+describe EventMachine::WPN::Windows71::Tile do
   describe "#body" do
     it "builds body for :title, :count, :back_content, :back_title, :background_image, and :back_background_image" do
-      notification = EM::WPN::Tile.new("http://example.com",
+      notification = EM::WPN::Windows71::Tile.new("http://example.com",
         {
           :count => 5,
           :title => "Hello",
@@ -29,7 +29,7 @@ XML
     end
 
     it "sets an id on the tile if it's passed in" do
-      notification = EM::WPN::Tile.new("http://example.com",
+      notification = EM::WPN::Windows71::Tile.new("http://example.com",
         {
           :id => 1,
           :title => "Hi"
@@ -49,7 +49,7 @@ XML
     end
 
     it "sets the 'Action' = 'Clear' attribute on any elements on the back of the tile if they are nil" do
-      notification = EM::WPN::Tile.new("http://example.com",
+      notification = EM::WPN::Windows71::Tile.new("http://example.com",
         {
           :title => "Hi",
           :back_title => nil,
@@ -71,7 +71,7 @@ XML
     end
 
     it "also sets 'Action' => 'Clear' on back elements of the tile if they are blank" do
-      notification = EM::WPN::Tile.new("http://example.com",
+      notification = EM::WPN::Windows71::Tile.new("http://example.com",
         {
           :title => "Hi",
           :back_title => "",
@@ -94,7 +94,7 @@ XML
     end
 
     it "accepts string keys" do
-      notification = EM::WPN::Tile.new("http://example.com",
+      notification = EM::WPN::Windows71::Tile.new("http://example.com",
         {
           "count" => 5,
           "title" => "Hello"
@@ -115,7 +115,7 @@ XML
     end
 
     it "properly escapes XML entities" do
-      notification = EM::WPN::Tile.new("http://www.example.com",
+      notification = EM::WPN::Windows71::Tile.new("http://www.example.com",
         {
           :title => "Mike & Ike > Now & Later"
         }
@@ -137,7 +137,7 @@ XML
 
   describe "headers" do
     it "generates proper headers" do
-      notification = EM::WPN::Tile.new("http://example.com",
+      notification = EM::WPN::Windows71::Tile.new("http://example.com",
         {
           :count => 5,
           :title => "Hello"

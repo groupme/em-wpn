@@ -1,14 +1,13 @@
 # Windows Push Notification for EventMachine
 
-Implements Windows Phone 7 push notifications as described on
-[MSDN](http://msdn.microsoft.com/en-us/library/hh202967.aspx).
+Implements Windows Phone 7.1 and 8.0 push notifications as described on [MSDN][1].
 
 ## Usage
 
 ### Toast
 
     EM.run do
-      toast = EM::WPN::Toast.new("http://live.net...",
+      toast = EM::WPN::Windows71::Toast.new("http://live.net...",
         :text1 => "Hello",
         :text2 => "World"
       )
@@ -18,13 +17,17 @@ Implements Windows Phone 7 push notifications as described on
 ### Tile
 
     EM.run do
-      tile = EM::WPN::Tile.new("http://live.net...",
+      tile = EM::WPN::Windows71::Tile.new("http://live.net...",
         :background_image => "/image.png",
         :count            => 5,
         :title            => "Hello World"
       )
       response = EM::WPN.push(tile)
     end
+
+Windows Phone 8 tiles are available in additional classes:
+- `EM::WPN::Windows8::IconicTile`
+- `EM::WPN::Windows8::FlipTile`
 
 ### Responses
 
@@ -54,3 +57,5 @@ Errbacks are invoked for any non-200 response as well as network errors:
 ## Credits
 
 This is a direct clone of Dave Yeu's [em-apn](https://github.com/groupme/em-apn) gem.
+
+[1]: http://msdn.microsoft.com/en-us/library/windowsphone/develop/hh202945(v=vs.105).aspx
