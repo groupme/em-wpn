@@ -8,7 +8,7 @@ Implements Windows Phone 7 push notifications as described on
 ### Toast
 
     EM.run do
-      toast = EM::WPN::Toast.new("http://live.net...",
+      toast = EM::WPN::Windows71::Toast.new("http://live.net...",
         :text1 => "Hello",
         :text2 => "World"
       )
@@ -18,7 +18,7 @@ Implements Windows Phone 7 push notifications as described on
 ### Tile
 
     EM.run do
-      tile = EM::WPN::Tile.new("http://live.net...",
+      tile = EM::WPN::Windows71::Tile.new("http://live.net...",
         :background_image => "/image.png",
         :count            => 5,
         :title            => "Hello World"
