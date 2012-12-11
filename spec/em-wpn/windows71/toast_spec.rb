@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe EventMachine::WPN::Toast do
+describe EventMachine::WPN::Windows71::Toast do
   describe "#body" do
     it "handles text1 and text2" do
-      notification = EM::WPN::Toast.new("http://example.com",
+      notification = EM::WPN::Windows71::Toast.new("http://example.com",
         {
           :text1 => "Hello",
           :text2 => "World"
@@ -21,7 +21,7 @@ XML
     end
 
     it "accepts string keys" do
-      notification = EM::WPN::Toast.new("http://example.com",
+      notification = EM::WPN::Windows71::Toast.new("http://example.com",
         {
           "text1" => "Hello",
           "text2" => "World"
@@ -39,7 +39,7 @@ XML
     end
 
     it "handles params" do
-      notification = EM::WPN::Toast.new("http://example.com",
+      notification = EM::WPN::Windows71::Toast.new("http://example.com",
         {
           :text1  => "Hello",
           :text2  => "World",
@@ -59,7 +59,7 @@ XML
     end
 
     it "handles params with xaml" do
-      notification = EM::WPN::Toast.new("http://example.com",
+      notification = EM::WPN::Windows71::Toast.new("http://example.com",
         {
           :text1  => "Hello",
           :text2  => "World",
@@ -80,7 +80,7 @@ XML
     end
 
     it "sets the wp:Param element when the :param property is present" do
-      notification = EM::WPN::Toast.new("http://example.com",
+      notification = EM::WPN::Windows71::Toast.new("http://example.com",
         {
           :text1 => "Hello",
           :text2 => "World",
@@ -102,7 +102,7 @@ XML
 
   describe "headers" do
     it "generates proper headers" do
-      notification = EM::WPN::Toast.new("http://example.com",
+      notification = EM::WPN::Windows71::Toast.new("http://example.com",
         {
           :text1 => "Hello",
           :text2 => "World"

@@ -3,7 +3,7 @@ require "spec_helper"
 describe EventMachine::WPN do
   describe ".push" do
     it "delivers a push notification through a simple interface" do
-      notification = EM::WPN::Toast.new("http://example.com", :text1 => "Hello world")
+      notification = EM::WPN::Windows71::Toast.new("http://example.com", :text1 => "Hello world")
       request_stub = EM::WPN.stub(notification).to_return(:status => 200)
 
       EM.run_block do
@@ -15,7 +15,7 @@ describe EventMachine::WPN do
 
     context "when the delivery succeeds" do
       before do
-        @notification = EM::WPN::Toast.new("http://example.com", :text1 => "Hello world")
+        @notification = EM::WPN::Windows71::Toast.new("http://example.com", :text1 => "Hello world")
         @request_stub = EM::WPN.stub(@notification).to_return(:status => 200)
       end
 
@@ -48,7 +48,7 @@ describe EventMachine::WPN do
 
     context "when there's an error" do
       before do
-        @notification = EM::WPN::Toast.new("http://example.com", :text1 => "Hello world")
+        @notification = EM::WPN::Windows71::Toast.new("http://example.com", :text1 => "Hello world")
         @request_stub = EM::WPN.stub(@notification).to_return(
           :status  => 404,
           :headers => {
