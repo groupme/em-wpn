@@ -60,8 +60,8 @@ module EventMachine
           builder.Notification("xmlns:wp" => "WPNotification", "Version" => "2.0") do |notification|
             builder.parent.namespace = builder.parent.namespace_definitions.last
             notification.Tile("Id" => properties[:id], "Template" => "IconicTile") do |tile|
-              tile.SmallIconImage  clear(properties[:small_icon_image])
-              tile.IconImage       clear(properties[:icon_image])
+              tile.SmallIconImage  properties[:small_icon_image]
+              tile.IconImage       properties[:icon_image]
               tile.WideContent1    clear(properties[:wide_content_1])
               tile.WideContent2    clear(properties[:wide_content_2])
               tile.WideContent3    clear(properties[:wide_content_3])

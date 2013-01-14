@@ -33,14 +33,14 @@ describe EM::WPN::Windows8::IconicTile do
 XML
     end
 
-    it "properly clears empty properties" do
+    it "properly clears empty properties (except SmallIconImage and IconImage)" do
       iconic_tile = EM::WPN::Windows8::IconicTile.new("http://example.com", {})
       iconic_tile.body.should == <<XML
 <?xml version="1.0" encoding="utf-8"?>
 <wp:Notification xmlns:wp="WPNotification" Version="2.0">
   <wp:Tile Id="" Template="IconicTile">
-    <wp:SmallIconImage Action="Clear"></wp:SmallIconImage>
-    <wp:IconImage Action="Clear"></wp:IconImage>
+    <wp:SmallIconImage></wp:SmallIconImage>
+    <wp:IconImage></wp:IconImage>
     <wp:WideContent1 Action="Clear"></wp:WideContent1>
     <wp:WideContent2 Action="Clear"></wp:WideContent2>
     <wp:WideContent3 Action="Clear"></wp:WideContent3>
