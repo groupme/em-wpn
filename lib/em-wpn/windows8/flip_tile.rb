@@ -63,11 +63,11 @@ module EventMachine
           builder.Notification("xmlns:wp" => "WPNotification", "Version" => "2.0") do |notification|
             builder.parent.namespace = builder.parent.namespace_definitions.last
             notification.Tile("Id" => properties[:id], "Template" => "FlipTile") do |tile|
-              tile.SmallBackgroundImage    clear(properties[:small_background_image])
-              tile.WideBackgroundImage     clear(properties[:wide_background_image])
+              tile.SmallBackgroundImage    properties[:small_background_image]
+              tile.WideBackgroundImage     properties[:wide_background_image]
               tile.WideBackBackgroundImage clear(properties[:wide_back_background_image])
               tile.WideBackContent         clear(properties[:wide_back_content])
-              tile.BackgroundImage         clear(properties[:background_image])
+              tile.BackgroundImage         properties[:background_image]
               tile.Count                   clear(properties[:count])
               tile.Title                   clear(properties[:title])
               tile.BackBackgroundImage     clear(properties[:back_background_image])
