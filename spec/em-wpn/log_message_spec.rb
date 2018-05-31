@@ -6,12 +6,12 @@ describe EM::WPN::LogMessage do
     @notification.stub(:body).and_return("BODY")
   end
 
-  it "logs to info on success" do
+  it "logs to debug on success" do
     response = EM::WPN::Response.new(EM::DefaultDeferrable.new)
     response.stub(:duration).and_return(100)
     response.stub(:status).and_return(200)
 
-    EM::WPN.logger.should_receive(:info).with(
+    EM::WPN.logger.should_receive(:debug).with(
       "CODE=200 GUID=#{@notification.uuid} TOKEN=#{@notification.uri} TIME=#{response.duration}"
     )
 

@@ -11,7 +11,7 @@ module EventMachine
         @response = response
         @response.callback do
           EM::WPN.logger.debug(debug)
-          EM::WPN.logger.info(message)
+          EM::WPN.logger.debug(message)
         end
         @response.errback do
           EM::WPN.logger.debug(debug)
